@@ -1,5 +1,5 @@
 <?php 
-include("db.inc.php");
+include("config/db.php");
 
 function getList($link=null, $pid=0, &$result=array(), $spac=0){
 	$spac = $spac + 6;
