@@ -30,6 +30,36 @@ function display($link, $pid=0, $selected=0){
 }
 
 echo display($link, 0, 4);
+echo '<br/>';
+//==============================================================================//
+
+
+function getList1($link=null, $pid=0, &$result=array(), $spac=0){
+	$spac = $spac + 6;
+    $sql = "select * from `category` where `pid` = $pid";
+    $res = mysqli_query($link, $sql);
+    while($row = mysqli_fetch_assoc($res)){
+        $row['cate_name']=str_repeat('&nbsp',$spac).$row['cate_name'];
+        $row['create_time']=str_repeat('&nbsp',$spac).$row['create_time'];
+        $result[] = $row;
+        getList1($link, $row['id'], $result, $spac);
+    }
+    return $result;
+}
+
+function display1($link, $pid=0, $selected=0){
+	$res = getList1($link, $pid);
+	$str = "";
+	foreach ($res as $k => $v) {
+		$str.=  "{$v['cate_name']}";
+		$str.=  "<br/>";
+		$str.=  "{$v['create_time']}";
+		$str.=  "<br/>";
+	}
+	return $str;
+}
+echo display1($link, 0, 4);
+echo '<br/>';
 
 //==============================================================================//
 function getCategoryPath($link=null, $cid=0, &$result=array()){
